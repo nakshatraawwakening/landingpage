@@ -258,7 +258,7 @@
 
         // 1 second baad automatic popup khulna
         window.onload = function() {
-            setTimeout(function() { popup.style.display = 'flex'; }, 1000); 
+            setTimeout(function() { popup.style.display = 'flex'; }, 5000); 
         };
 
         // Close dabane par band karna
@@ -295,24 +295,29 @@
             formData.append('utm_term', urlParams.get('utm_term') || '');
             formData.append('utm_content', urlParams.get('utm_content') || '');
             // --- NAYA UTM TRACKING CODE END ---
-
-            fetch(scriptURL, { method: 'POST', body: formData })
-                .then(response => {
-                    successMsg.style.display = "block"; 
-                    form.reset(); 
-                    
-                    submitBtn.innerHTML = "Redirecting to WhatsApp...";
-                    
-                    setTimeout(() => {
-                        // YAHAN APNA WHATSAPP GROUP LINK DALEIN
-                        window.location.href = "HTTPS://CHAT.WHATSAPP.COM/AAPKA_GROUP_LINK_YAHAN";
-                    }, 1500);
-                })
-                .catch(error => {
-                    console.error('Error!', error.message);
-                    submitBtn.innerHTML = "Try Again";
-                    submitBtn.disabled = false;
-                });
+            // बदला हुआ सुरक्षित fetch कोड:
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors', // यह जोड़ना बहुत ज़रूरी है
+                body: formData
+            })
+            .then(() => {
+                successMsg.style.display = "block"; 
+                form.reset(); 
+                submitBtn.innerHTML = "Submitted Successfully!";
+                
+                // अगर असली WhatsApp लिंक लगाना हो तभी रीडायरेक्ट करें, वर्ना इसे हटा दें
+                /*
+                setTimeout(() => {
+                    window.location.href = "https://chat.whatsapp.com/आपका_असली_लिंक";
+                }, 1500);
+                */
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                submitBtn.innerHTML = "Try Again";
+                submitBtn.disabled = false;
+            });       
         });
     </script>
 </body>
